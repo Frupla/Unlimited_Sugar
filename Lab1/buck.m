@@ -33,7 +33,7 @@ voltages = [D1,D2,D3,D4,D5,D6,D7,D8,D9];
 duty = [0.1,0.2,0.30,0.40,0.50,0.60,0.70,0.80,0.90];
 
 Vin = 24;
-R = 10;
+RL = 10;
 L = 100e-6;
 C = 100e-6;
 
@@ -47,7 +47,7 @@ grid on
 xlabel('D')
 ylabel('V_{out} [V]')
 yticks([0,6,12,18,24])
-set(gca,'fontsize', 10);
+set(gca,'fontsize', 20);
 saveFig(fig,'buck_Vout_vs_duty',200)
 hold off
 
@@ -60,7 +60,7 @@ legend('Vout','Vd')
 grid on
 ylabel('V [V]')
 xlabel('t [\mu s]')
-set(gca,'fontsize', 10);
+set(gca,'fontsize', 20);
 saveFig(fig,'buck_V_out_and_Vd_vs_time',200)
 hold off
 
@@ -83,7 +83,7 @@ legend('I_L', 'I_C')
 ylabel('V [V]')
 xlabel('t [\mu s]')
 grid()
-set(gca,'fontsize', 10);
+set(gca,'fontsize', 20);
 subplot(2,1,2);
 scatter(10^6 * (d40.second-d40.second(1)),2*d40.Volt_2,'LineWidth',2)
 hold on
@@ -93,7 +93,7 @@ legend('I_L', 'I_C')
 ylabel('V [V]')
 xlabel('t [\mu s]')
 grid()
-set(gca,'fontsize', 10);
+set(gca,'fontsize', 20);
 saveFig(fig,'262_I_vs_t',400)
 
 %% 3. Plot  the  peak-peak  ripple  in  the  output  voltage 
@@ -200,6 +200,7 @@ xlim([40 100])
 set(gca,'fontsize', 10);
 saveFig(fig,'Vcripple',400)
 
+
 %% 4.Attach a copy of the inductor current waveforms obtained in section 2.5.3.
 % Compare the theoretically calculated Rcrit with the observed value.
 
@@ -207,21 +208,22 @@ d10 = readtable('253-10.csv', 'HeaderLines', 1);
 d40 = readtable('253-40.csv', 'HeaderLines', 1);
 d50 = readtable('253-50.csv', 'HeaderLines', 1);
 d100 = readtable('253-100.csv', 'HeaderLines', 1);
-
+%lines(4)
 fig = figure(120);
-scatter(10^6 * (d10.second-d10.second(1)),2 * d10.Volt_2,'LineWidth',2);
+plot(10^6 * (d10.second-d10.second(1)),2 * d10.Volt_2,'LineWidth',2);
 hold on
-scatter(10^6 * (d40.second-d40.second(1)),2 * d40.Volt_2,'LineWidth',2);
-scatter(10^6 * (d50.second-d50.second(1)),2 * d50.Volt_2,'LineWidth',2);
-scatter(10^6 * (d10.second-d100.second(1)),2 * d100.Volt_2,'LineWidth',0.5);
+plot(10^6 * (d40.second-d40.second(1)),2 * d40.Volt_2,'LineWidth',2);
+plot(10^6 * (d50.second-d50.second(1)),2 * d50.Volt_2,'LineWidth',2);
+plot(10^6 * (d10.second-d100.second(1)),2 * d100.Volt_2,'LineWidth',2);
 
-legend('I_L (R_L = 10\Omega)','I_L (R_L = 40\Omega)','I_L (R_L = 50\Omega)','I_L (R_L = 100\Omega)')
-ylabel('V [V]')
-xlabel('t [\mu s]')
+legend({'I_L(R_L=10\Omega)','I_L(R_L=40\Omega)','I_L(R_L=50\Omega)','I_L(R_L=100\Omega)'},'Location','best')
+%legend('boxoff')
+ylabel('I [A]')
+xlabel('t [\mus]')
 hold off
-
+grid()
 set(gca,'fontsize', 20);
-saveFig(fig,'264_I_C_vs_t',200)
+saveFig(fig,'264_I_L_vs_t',200)
 
 
 %% Efficiency
@@ -270,17 +272,17 @@ P_i_100_avg = mean(d100.Volt_1.*(2*d100.Volt_3));
 fig = figure(7);
 legend('-DynamicLegend');
 yyaxis left
-plot(10^6 * (d40.second-d40.second(1)),[d40.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt],'Color',[0,0.4470,0.7410],'LineWidth',2,'LineStyle','-','DisplayName','V_{out}')
 hold on
 ylabel('V [V]')
-plot(10^6 * (d40.second-d40.second(1)),[d40.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt_1],'Color',[0.8500,0.3250,0.0980],'LineWidth',2,'LineStyle','-','DisplayName','V_{in}')
 hold off
 yyaxis right
-plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_2],'Color',[0.9290,0.6940,0.1250],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
 hold on
-plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_3],'Color',[0.4940,0.1840,0.5560],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
+grid on
 hold off
-grid()
 ylabel('I [A]')
 xlabel('t [\mu s]')
 set(gca,'fontsize', 20);
@@ -291,18 +293,19 @@ saveFig(fig,'265_40',200);
 fig = figure(8);
 legend('-DynamicLegend');
 yyaxis left
-plot(10^6 * (d100.second-d100.second(1)),[d100.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt],'Color',[0,0.4470,0.7410],'LineWidth',2,'LineStyle','-','DisplayName','V_{out}')
 hold on
 ylabel('V [V]')
-plot(10^6 * (d100.second-d100.second(1)),[d100.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt_1],'Color',[0.8500,0.3250,0.0980],'LineWidth',2,'LineStyle','-','DisplayName','V_{in}')
 hold off
 yyaxis right
-plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_2],'Color',[0.9290,0.6940,0.1250],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
 hold on
-plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_3],'Color',[0.4940,0.1840,0.5560],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
+grid on
 hold off
-grid()
 ylabel('I [A]')
 xlabel('t [\mu s]')
 set(gca,'fontsize', 20);
 saveFig(fig,'265_100',200);
+

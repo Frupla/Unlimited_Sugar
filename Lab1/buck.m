@@ -104,7 +104,7 @@ L = 100e-6;
 C = 100e-6;
 Rc1 = 10e-3;
 Rc2 = 5e-1;
-Rc3 = 10e0;
+Rc3 = 5;
 Rc4 = 15;
 
 f = -100e3+1:1e2:100e3;
@@ -122,7 +122,7 @@ plot(f'/1000,mag2db(abs(H2))','LineWidth',2);
 plot(f'/1000,mag2db(abs(H3))','LineWidth',2);
 plot(f'/1000,mag2db(abs(H4))','LineWidth',2);
 hold off
-legend(["10m\Omega","0.5\Omega","1\Omega","15\Omega"])
+legend(["10m\Omega","0.5\Omega","5\Omega","15\Omega"])
 xlim([0 100e3/1000])
 grid();
 ylabel('amplitude')
@@ -148,7 +148,7 @@ Vpeak60 = 2*sqrt(3)*sqrt(sum(Vripple60.^2)/length(Vripple60));
 Vpeak80 = 2*sqrt(3)*sqrt(sum(Vripple80.^2)/length(Vripple80));
 Vpeak100= 2*sqrt(3)*sqrt(sum(Vripple100.^2)/length(Vripple100));
 
-Vpeak = [Vpeak40,Vpeak60,Vpeak80,Vpeak100];
+Vpeak = [0.2,0.2,0.2,0.2];
 
 Iripple40 = 2*(d1.Volt_2 - mean(d1.Volt_2));
 Iripple60 = 2*(d2.Volt_2 - mean(d2.Volt_2));
@@ -188,12 +188,12 @@ saveFig(fig,'Ilripple',400)
 
 
 fig = figure(210);
-plot(f/1000,1000*abs(H3),'LineWidth',2)
+plot(f'/1000,[1000*abs(H1)',1000*abs(H2)',1000*abs(H3)',1000*abs(H4)'],'LineWidth',2)
 hold on
 scatter(fstep,1000*Vpeak,'*')
 hold off
 grid on
-legend('Theoretical', 'Measured');
+legend(["10m\Omega","0.5\Omega","5\Omega","15\Omega","Measured"])
 xlabel('f_{sw} [kHz]')
 ylabel('V_{C,ripple} [mV]') 
 xlim([40 100])
@@ -309,4 +309,4 @@ xlabel('t [\mu s]')
 set(gca,'fontsize', 20);
 saveFig(fig,'265_100',200);
 
-%% YYYYAYYA
+

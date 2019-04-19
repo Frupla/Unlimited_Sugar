@@ -103,20 +103,22 @@ d10 = readtable('253-10.csv', 'HeaderLines', 1);
 d40 = readtable('253-40.csv', 'HeaderLines', 1);
 d50 = readtable('253-50.csv', 'HeaderLines', 1);
 d100 = readtable('253-100.csv', 'HeaderLines', 1);
-
+%lines(4)
 fig = figure(120);
-scatter(10^6 * (d10.second-d10.second(1)),2 * d10.Volt_2,'LineWidth',2);
+plot(10^6 * (d10.second-d10.second(1)),2 * d10.Volt_2,'LineWidth',2);
 hold on
-scatter(10^6 * (d40.second-d40.second(1)),2 * d40.Volt_2,'LineWidth',2);
-scatter(10^6 * (d50.second-d50.second(1)),2 * d50.Volt_2,'LineWidth',2);
-scatter(10^6 * (d10.second-d100.second(1)),2 * d100.Volt_2,'LineWidth',0.5);
+plot(10^6 * (d40.second-d40.second(1)),2 * d40.Volt_2,'LineWidth',2);
+plot(10^6 * (d50.second-d50.second(1)),2 * d50.Volt_2,'LineWidth',2);
+plot(10^6 * (d10.second-d100.second(1)),2 * d100.Volt_2,'LineWidth',2);
 
-legend('I_L (R_L = 10\Omega)','I_L (R_L = 40\Omega)','I_L (R_L = 50\Omega)','I_L (R_L = 100\Omega)')
-ylabel('V [V]')
-xlabel('t [\mu s]')
+legend({'I_L(R_L=10\Omega)','I_L(R_L=40\Omega)','I_L(R_L=50\Omega)','I_L(R_L=100\Omega)'},'Location','best')
+%legend('boxoff')
+ylabel('I [A]')
+xlabel('t [\mus]')
 hold off
+grid()
 set(gca,'fontsize', 20);
-saveFig(fig,'264_I_C_vs_t',200)
+saveFig(fig,'264_I_L_vs_t',200)
 
 
 %% Efficiency
@@ -165,17 +167,17 @@ P_i_100_avg = mean(d100.Volt_1.*(2*d100.Volt_3));
 fig = figure(7);
 legend('-DynamicLegend');
 yyaxis left
-plot(10^6 * (d40.second-d40.second(1)),[d40.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt],'Color',[0,0.4470,0.7410],'LineWidth',2,'LineStyle','-','DisplayName','V_{out}')
 hold on
 ylabel('V [V]')
-plot(10^6 * (d40.second-d40.second(1)),[d40.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt_1],'Color',[0.8500,0.3250,0.0980],'LineWidth',2,'LineStyle','-','DisplayName','V_{in}')
 hold off
 yyaxis right
-plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_2],'Color',[0.9290,0.6940,0.1250],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
 hold on
-plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_3],'Color',[0.4940,0.1840,0.5560],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
+grid on
 hold off
-grid()
 ylabel('I [A]')
 xlabel('t [\mu s]')
 set(gca,'fontsize', 20);
@@ -186,17 +188,17 @@ saveFig(fig,'265_40',200);
 fig = figure(8);
 legend('-DynamicLegend');
 yyaxis left
-plot(10^6 * (d100.second-d100.second(1)),[d100.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt],'Color',[0,0.4470,0.7410],'LineWidth',2,'LineStyle','-','DisplayName','V_{out}')
 hold on
 ylabel('V [V]')
-plot(10^6 * (d100.second-d100.second(1)),[d100.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt_1],'Color',[0.8500,0.3250,0.0980],'LineWidth',2,'LineStyle','-','DisplayName','V_{in}')
 hold off
 yyaxis right
-plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_2],'Color',[0.9290,0.6940,0.1250],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
 hold on
-plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_3],'Color',[0.4940,0.1840,0.5560],'LineWidth',2,'LineStyle','-','DisplayName','I_{out}')
+grid on
 hold off
-grid()
 ylabel('I [A]')
 xlabel('t [\mu s]')
 set(gca,'fontsize', 20);

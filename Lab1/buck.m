@@ -117,3 +117,88 @@ xlabel('t [\mu s]')
 hold off
 set(gca,'fontsize', 20);
 saveFig(fig,'264_I_C_vs_t',200)
+
+
+%% Efficiency
+d40 = readtable('254-40.csv', 'HeaderLines', 1);
+d100 = readtable('254-100.csv', 'HeaderLines', 1);
+
+V_o_40_avg = mean(d40.Volt); 
+V_i_40_avg = mean(d40.Volt_1); 
+I_o_40_avg = mean(2*d40.Volt_2);
+I_i_40_avg = mean(2*d40.Volt_3);
+
+V_o_100_avg = mean(d100.Volt); 
+V_i_100_avg = mean(d100.Volt_1); 
+I_o_100_avg = mean(2*d100.Volt_2);
+I_i_100_avg = mean(2*d100.Volt_3);
+
+P_o_40 = V_o_40_avg*I_o_40_avg;
+P_i_40 = V_i_40_avg*I_i_40_avg;
+eta_40_1 = P_o_40/P_i_40
+
+P_o_40_avg = mean(d40.Volt.*(2*d40.Volt_2));
+P_i_40_avg = mean(d40.Volt_1.*(2*d40.Volt_3));
+%eta_40_3 = P_o_40_avg/P_i_40_avg
+
+
+V_o_100_avg = mean(d100.Volt); 
+V_i_100_avg = mean(d100.Volt_1); 
+I_o_100_avg = mean(2*d100.Volt_2);
+I_i_100_avg = mean(2*d100.Volt_3);
+
+V_o_100_avg = mean(d100.Volt); 
+V_i_100_avg = mean(d100.Volt_1); 
+I_o_100_avg = mean(2*d100.Volt_2);
+I_i_100_avg = mean(2*d100.Volt_3);
+
+P_o_100 = V_o_100_avg*I_o_100_avg;
+P_i_100 = V_i_100_avg*I_i_100_avg;
+eta_100_1 = P_o_100/P_i_100
+
+P_o_100_avg = mean(d100.Volt.*(2*d100.Volt_2));
+P_i_100_avg = mean(d100.Volt_1.*(2*d100.Volt_3));
+%eta_100_3 = P_o_100_avg/P_i_100_avg
+
+
+
+fig = figure(7);
+legend('-DynamicLegend');
+yyaxis left
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+hold on
+ylabel('V [V]')
+plot(10^6 * (d40.second-d40.second(1)),[d40.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+hold off
+yyaxis right
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+hold on
+plot(10^6 * (d40.second-d40.second(1)),[2*d40.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+hold off
+grid()
+ylabel('I [A]')
+xlabel('t [\mu s]')
+set(gca,'fontsize', 20);
+saveFig(fig,'265_40',200);
+
+
+
+fig = figure(8);
+legend('-DynamicLegend');
+yyaxis left
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt],'b','LineWidth',5,'DisplayName','V_{out}')
+hold on
+ylabel('V [V]')
+plot(10^6 * (d100.second-d100.second(1)),[d100.Volt_1],'r','LineWidth',5,'DisplayName','V_{in}')
+hold off
+yyaxis right
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_2],'g','LineWidth',5,'DisplayName','I_{out}')
+hold on
+plot(10^6 * (d100.second-d100.second(1)),[2*d100.Volt_3],'k','LineWidth',5,'DisplayName','I_{out}')
+hold off
+grid()
+ylabel('I [A]')
+xlabel('t [\mu s]')
+set(gca,'fontsize', 20);
+saveFig(fig,'265_100',200);
+

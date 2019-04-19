@@ -115,7 +115,7 @@ H3 = (1j*2*pi*f*C*Rc3*R/(R+Rc1)+R/(R+Rc3))./((1j*2*pi*f).^2*L*C+(1j*2*pi*f)*(C*R
 H4 = (1j*2*pi*f*C*Rc4*R/(R+Rc1)+R/(R+Rc4))./((1j*2*pi*f).^2*L*C+(1j*2*pi*f)*(C*R*Rc4+L)/(R+Rc4)+R/(R+Rc4));
 
 
-fig = figure(230);
+fig = figure(230)
 plot(f'/1000,mag2db(abs(H1))','LineWidth',2);
 hold on 
 plot(f'/1000,mag2db(abs(H2))','LineWidth',2);
@@ -128,7 +128,7 @@ grid();
 ylabel('amplitude')
 xlabel('f [kHz]')
 set(gca,'fontsize', 10);
-saveFig(fig,'bodeOfESR',400);
+saveFig(fig,'bodeOfESR',400)
 
 %%
 

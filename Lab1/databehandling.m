@@ -15,11 +15,14 @@ plot(d1.second,[d1.Volt,d1.Volt_1,d1.Volt_2],'LineWidth',5)
 legend('Vout','PWM','Vd')
 grid()
 %%
-d2 = readtable('252-100.csv', 'HeaderLines', 1);
+d1 = readtable('252-40.csv', 'HeaderLines', 1);
+d2 = readtable('252-60.csv', 'HeaderLines', 1);
+d3 = readtable('252-80.csv', 'HeaderLines', 1);
+d4 = readtable('252-100.csv', 'HeaderLines', 1);
 
 figure(2)
-plot(d2.second,[d2.Volt,d2.Volt_1,d2.Volt_2,d2.Volt_3],'LineWidth',5)
-legend('Vout','PWM','Il', 'Ic')
+plot(d2.second,[d1.Volt,d2.Volt,d3.Volt,d4.Volt],'LineWidth',2)
+legend
 grid()
 %%
 figure(3)

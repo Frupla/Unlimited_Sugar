@@ -188,7 +188,7 @@ saveFig(fig,'Ilripple',400)
 
 
 fig = figure(210);
-plot(fsw/1000,1000*VCripple,'LineWidth',2)
+plot(f/1000,1000*abs(H3),'LineWidth',2)
 hold on
 scatter(fstep,1000*Vpeak,'*')
 hold off
@@ -196,6 +196,7 @@ grid on
 legend('Theoretical', 'Measured');
 xlabel('f_{sw} [kHz]')
 ylabel('V_{C,ripple} [mV]') 
+xlim([40 100])
 set(gca,'fontsize', 10);
 saveFig(fig,'Vcripple',400)
 

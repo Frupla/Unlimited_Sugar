@@ -20,10 +20,31 @@ d2 = readtable('252-60.csv', 'HeaderLines', 1);
 d3 = readtable('252-80.csv', 'HeaderLines', 1);
 d4 = readtable('252-100.csv', 'HeaderLines', 1);
 
+Ic1 = (2*d1.Volt_3);
+Ic2 = (2*d2.Volt_3);
+Ic3 = (2*d3.Volt_3);
+Ic4 = (2*d4.Volt_3);
+
+fIc1 = medfilt1(Ic1,20);
+fIc2 = medfilt1(Ic2,20);
+fIc3 = medfilt1(Ic3,10);
+fIc4 = medfilt1(Ic4,10);
+
+fIpeak40 = 2*sqrt(3)*sqrt(sum(fIc1.^2)/length(fIc1));
+fIpeak60 = 2*sqrt(3)*sqrt(sum(fIc2.^2)/length(fIc2));
+fIpeak80 = 2*sqrt(3)*sqrt(sum(fIc3.^2)/length(fIc3));
+fIpeak100= 2*sqrt(3)*sqrt(sum(fIc4.^2)/length(fIc4));
+
 figure(2)
-plot(d2.second,[d1.Volt,d2.Volt,d3.Volt,d4.Volt],'LineWidth',2)
-legend
+plot(d2.second,[Ic1,Ic2,Ic3,Ic4],'LineWidth',5)
+legend('Ic at 40kHz','Ic at 60kHz','Ic at 80kHz', 'Ic at 100kHz')
 grid()
+
+figure(3)
+plot(d2.second,[fIc1,fIc2,fIc3,fIc4],'LineWidth',5)
+legend('Ic at 40kHz','Ic at 60kHz','Ic at 80kHz', 'Ic at 100kHz')
+grid()
+
 %%
 figure(3)
 plot(d3.second,[d3.Volt,d3.Volt_1,d3.Volt_2],'LineWidth',5)

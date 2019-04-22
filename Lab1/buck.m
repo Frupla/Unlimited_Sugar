@@ -103,7 +103,7 @@ R = 10;
 L = 100e-6;
 C = 100e-6;
 Rc1 = 10e-3;
-Rc2 = 5e-1;
+Rc2 = 0.5;
 Rc3 = 5;
 Rc4 = 15;
 
@@ -128,9 +128,9 @@ grid();
 ylabel('amplitude')
 xlabel('f [kHz]')
 set(gca,'fontsize', 10);
-saveFig(fig,'bodeOfESR',400);
+saveFig(fig,'bodeOfESR',200);
 
-%%
+
 
 % from experiment
 d1 = readtable('252-40.csv', 'HeaderLines', 1);
@@ -138,17 +138,43 @@ d2 = readtable('252-60.csv', 'HeaderLines', 1);
 d3 = readtable('252-80.csv', 'HeaderLines', 1);
 d4 = readtable('252-100.csv', 'HeaderLines', 1);
 
-Vripple40 = d1.Volt - mean(d1.Volt);
-Vripple60 = d2.Volt - mean(d2.Volt);
-Vripple80 = d3.Volt - mean(d3.Volt);
-Vripple100= d4.Volt - mean(d4.Volt);
+Ic1 = (2*d1.Volt_3);
+Ic2 = (2*d2.Volt_3);
+Ic3 = (2*d3.Volt_3);
+Ic4 = (2*d4.Volt_3);
 
-Vpeak40 = 2*sqrt(3)*sqrt(sum(Vripple40.^2)/length(Vripple40));
-Vpeak60 = 2*sqrt(3)*sqrt(sum(Vripple60.^2)/length(Vripple60));
-Vpeak80 = 2*sqrt(3)*sqrt(sum(Vripple80.^2)/length(Vripple80));
-Vpeak100= 2*sqrt(3)*sqrt(sum(Vripple100.^2)/length(Vripple100));
+fIc1 = medfilt1(Ic1,17);
+fIc2 = medfilt1(Ic2,17);
+fIc3 = medfilt1(Ic3,17);
+fIc4 = medfilt1(Ic4,17);
 
-Vpeak = [0.2,0.2,0.2,0.2];
+fIpeak40 = 2*sqrt(3)*sqrt(sum(fIc1.^2)/length(fIc1));
+fIpeak60 = 2*sqrt(3)*sqrt(sum(fIc2.^2)/length(fIc2));
+fIpeak80 = 2*sqrt(3)*sqrt(sum(fIc3.^2)/length(fIc3));
+fIpeak100= 2*sqrt(3)*sqrt(sum(fIc4.^2)/length(fIc4));
+
+%figure(2)
+%plot(d2.second,[Ic1,Ic2,Ic3,Ic4],'LineWidth',5)
+%legend('I_{c} at40kHz','I_{c} at60kHz','I_{c} at80kHz', 'I_{c} at100kHz')
+%grid()
+
+fig = figure(123);
+plot(10^6 * (d2.second-d2.second(1)),[fIc1,fIc2,fIc3,fIc4],'LineWidth',5)
+legend({'I_{c} at40kHz','I_{c} at60kHz','I_{c} at80kHz', 'I_{c} at100kHz'}, 'Location', 'eastoutside')
+grid()
+ylabel('current [A]');
+xlabel('time [µs]');
+set(gca,'fontsize', 10);
+saveFig(fig,'CleanedIcripple',200);
+
+
+
+Vpeak40 = fIpeak40*2/(C*40e3);
+Vpeak60 = fIpeak60*2/(C*60e3);
+Vpeak80 = fIpeak80*2/(C*80e3);
+Vpeak100= fIpeak100*2/(C*100e3);
+
+Vpeak = [Vpeak40, Vpeak60, Vpeak80, Vpeak100];
 
 Iripple40 = 2*(d1.Volt_2 - mean(d1.Volt_2));
 Iripple60 = 2*(d2.Volt_2 - mean(d2.Volt_2));
@@ -184,7 +210,7 @@ legend('Theoretical', 'Measured');
 xlabel('f_{sw} [kHz]')
 ylabel('I_{L,ripple} [A]') 
 set(gca,'fontsize', 10);
-saveFig(fig,'Ilripple',400)
+saveFig(fig,'Ilripple',200)
 
 
 fig = figure(210);
@@ -198,7 +224,7 @@ xlabel('f_{sw} [kHz]')
 ylabel('V_{C,ripple} [mV]') 
 xlim([40 100])
 set(gca,'fontsize', 10);
-saveFig(fig,'Vcripple',400)
+saveFig(fig,'Vcripple',200)
 
 
 %% 4.Attach a copy of the inductor current waveforms obtained in section 2.5.3.

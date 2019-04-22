@@ -42,7 +42,8 @@ Vout = D*Vin;
 fig = figure(100);
 plot(D,Vout,'LineWidth',5)
 hold on
-scatter(duty,voltages,'*')
+scatter(duty,voltages,'*','LineWidth',5)
+legend('calculated','measured','Location','best')
 grid on
 xlabel('D')
 ylabel('V_{out} [V]')
@@ -53,10 +54,10 @@ hold off
 
 d10 = readtable('251del1.csv', 'HeaderLines', 1);
 fig = figure(101);
-scatter(10^6 *(d10.second-d10.second(1)),[d10.Volt],'LineWidth',2)
+plot(10^6 *(d10.second-d10.second(1)),[d10.Volt],'LineWidth',2)
 hold on
-scatter(10^6 *(d10.second-d10.second(1)),[d10.Volt_2],'LineWidth',2)
-legend('Vout','Vd')
+plot(10^6 *(d10.second-d10.second(1)),[d10.Volt_2],'LineWidth',2)
+legend('Vout','Vd','Location','best')
 grid on
 ylabel('V [V]')
 xlabel('t [\mu s]')
@@ -75,25 +76,27 @@ d40 = readtable('252-40.csv', 'HeaderLines', 1);
 
 fig = figure(110);
 subplot(2,1,1);
-scatter(10^6 * (d100.second-d100.second(1)),2*(d100.Volt_2),'LineWidth',2)
+plot(10^6 * (d100.second-d100.second(1)),2*(d100.Volt_2),'LineWidth',3)
 hold on
-scatter(10^6 * (d100.second-d100.second(1)),2*(d100.Volt_3),'LineWidth',2)
+plot(10^6 * (d100.second-d100.second(1)),2*(d100.Volt_3),'LineWidth',3)
 hold off
-legend('I_L', 'I_C')
-ylabel('V [V]')
+legend('I_L', 'I_C','Location','best')
+title('100 kHz')
+ylabel('I [A]')
 xlabel('t [\mu s]')
 grid()
-set(gca,'fontsize', 20);
+set(gca,'fontsize',19);
 subplot(2,1,2);
-scatter(10^6 * (d40.second-d40.second(1)),2*d40.Volt_2,'LineWidth',2)
+plot(10^6 * (d40.second-d40.second(1)),2*d40.Volt_2,'LineWidth',3)
 hold on
-scatter(10^6 * (d40.second-d40.second(1)),2*d40.Volt_3,'LineWidth',2)
+plot(10^6 * (d40.second-d40.second(1)),2*d40.Volt_3,'LineWidth',3)
 hold off
-legend('I_L', 'I_C')
-ylabel('V [V]')
+legend('I_L', 'I_C','Location','best')
+ylabel('I [A]')
 xlabel('t [\mu s]')
+title('40 kHz')
 grid()
-set(gca,'fontsize', 20);
+set(gca,'fontsize', 19);
 saveFig(fig,'262_I_vs_t',400)
 
 %% 3. Plot  the  peak-peak  ripple  in  the  output  voltage 
@@ -230,45 +233,31 @@ saveFig(fig,'264_I_L_vs_t',200)
 d40 = readtable('254-40.csv', 'HeaderLines', 1);
 d100 = readtable('254-100.csv', 'HeaderLines', 1);
 
-V_o_40_avg = mean(d40.Volt); 
-V_i_40_avg = mean(d40.Volt_1); 
-I_o_40_avg = mean(2*d40.Volt_2);
-I_i_40_avg = mean(2*d40.Volt_3);
+V_o_40_avg = mean(d40.Volt) 
+V_i_40_avg = mean(d40.Volt_1)
+I_o_40_avg = mean(2*d40.Volt_2)
+I_i_40_avg = mean(2*d40.Volt_3)
 
-V_o_100_avg = mean(d100.Volt); 
-V_i_100_avg = mean(d100.Volt_1); 
-I_o_100_avg = mean(2*d100.Volt_2);
-I_i_100_avg = mean(2*d100.Volt_3);
-
-P_o_40 = V_o_40_avg*I_o_40_avg;
-P_i_40 = V_i_40_avg*I_i_40_avg;
-eta_40_1 = P_o_40/P_i_40
-
-P_o_40_avg = mean(d40.Volt.*(2*d40.Volt_2));
-P_i_40_avg = mean(d40.Volt_1.*(2*d40.Volt_3));
-%eta_40_3 = P_o_40_avg/P_i_40_avg
-
-
-V_o_100_avg = mean(d100.Volt); 
-V_i_100_avg = mean(d100.Volt_1); 
-I_o_100_avg = mean(2*d100.Volt_2);
-I_i_100_avg = mean(2*d100.Volt_3);
-
-V_o_100_avg = mean(d100.Volt); 
-V_i_100_avg = mean(d100.Volt_1); 
-I_o_100_avg = mean(2*d100.Volt_2);
-I_i_100_avg = mean(2*d100.Volt_3);
-
-P_o_100 = V_o_100_avg*I_o_100_avg;
-P_i_100 = V_i_100_avg*I_i_100_avg;
-eta_100_1 = P_o_100/P_i_100
-
-P_o_100_avg = mean(d100.Volt.*(2*d100.Volt_2));
-P_i_100_avg = mean(d100.Volt_1.*(2*d100.Volt_3));
-%eta_100_3 = P_o_100_avg/P_i_100_avg
+V_o_100_avg = mean(d100.Volt)
+V_i_100_avg = mean(d100.Volt_1) 
+I_o_100_avg = mean(2*d100.Volt_2)
+I_i_100_avg = mean(2*d100.Volt_3)
 
 
 
+P_o_40 = V_o_40_avg*I_o_40_avg
+P_i_40 = V_i_40_avg*I_i_40_avg
+eta_40 = P_o_40/P_i_40
+
+P_o_100 = V_o_100_avg*I_o_100_avg
+P_i_100 = V_i_100_avg*I_i_100_avg
+eta_100 = P_o_100/P_i_100
+
+P_o_40_alt = V_o_40_avg^2 / 10
+P_o_100_alt = V_o_100_avg^2 / 10
+eta_40 = P_o_40_alt/P_i_40
+eta_100 = P_o_100_alt/P_i_40
+%101.4% efficiency??? I don't like this!!!
 fig = figure(7);
 legend('-DynamicLegend');
 yyaxis left

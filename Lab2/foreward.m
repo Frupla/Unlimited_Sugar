@@ -27,4 +27,18 @@ yticklabels({'0','','','', '2V_{in}'})
 grid()
 saveFig(fig,'foreward_Vmos_scetch',200)
 
+%%
 
+D=0.4;
+Vin=20;
+L=100*10^(-6);
+Vout=D*Vin;
+RL=10;
+fsw=100e3;
+Tmax=1/fsw;
+T=linspace(0,Tmax,1001);
+deltaIm = Vin*(D*T)/L;
+Iout = Vout/RL;
+i1 =zeros(1,length(T));
+i3 = zeros(1,length(T));
+i1(1:(D*1000+1))=Iout+T(1:(D*1000+1))*Im/(Tmax*D);

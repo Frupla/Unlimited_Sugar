@@ -118,4 +118,4 @@ ylabel('I_{in}')
 yticks([0.4 0.8 1.2 1.6]);
 yticklabels('')
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_iout.eps',200)
+saveFig(fig,'figs/Flyback_iout.eps',200) 

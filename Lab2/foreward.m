@@ -162,21 +162,16 @@ saveFig(fig,'foreward_various_Iout',200)
 % 1. make similar thing, but for inductor current
 % 2. make the save figure function actually work
 
+iL1 = findingiL(10,100*10^3)
 
-RL = 10;
-fsw=100*10^3;
-Tmax=1/fsw;
-T=linspace(0,Tmax,1001);
-T1 =T;
-deltaIm = Vin*(D*Tmax)/L;
-Iout = Vout/RL;
-
-function v = findingiL(R_L,f)
+function i = findingiL(R_L,f)
+    Vin =20;
     d =0.4;
     T_max=1/f;
     T=linspace(0,T_max,1001);
     Vout = d*Vin;
     Iout = Vout/RL;
-    syms tau
-    f = (1-d)*Vin;
+    i = zeros(1,length(T));
+    i(1:(D*1000+1))=Iout+T(1:(D*1000+1))*(1-d)*Vin/L;
+    i(2:length(T))=Iout+(T(2:length(T))-d/f)*(-d*Vin/L)+(1-d)*Vin*d/(L*f) + Iout;
 end

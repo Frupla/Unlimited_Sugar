@@ -10,13 +10,8 @@ grid on
 xlabel('d')
 ylabel('V_{out} [V]')
 %yticks([0,6,12,18,24])
-<<<<<<< HEAD:Lab2/foreward.m
 set(gca,'FontSize',16)
-saveFig(fig,'foreward_Vout_vs_D',200)
-=======
 saveFig(fig,'forward_Vout_vs_D',200)
->>>>>>> c6a5840d0a2e2e2bba21d0cbebb9d7130b4ac4d7:Lab2/forward.m
-
 %% Kurveform af spændingen over MOSFETen
 
 Vmos = horzcat(zeros(1,400),ones(1,600));
@@ -30,12 +25,8 @@ ylabel('V_{MOSFET}')
 yticks([0 0.25 0.5 0.75 1])
 yticklabels({'0','','','', '2V_{in}'})
 grid()
-<<<<<<< HEAD:Lab2/foreward.m
 set(gca,'FontSize',12)
-saveFig(fig,'foreward_Vmos_scetch',200)
-=======
 saveFig(fig,'forward_Vmos_scetch',200)
->>>>>>> c6a5840d0a2e2e2bba21d0cbebb9d7130b4ac4d7:Lab2/forward.m
 
 %%
 

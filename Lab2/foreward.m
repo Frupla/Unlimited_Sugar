@@ -7,9 +7,10 @@ Vout = D*Vin;
 fig = figure(100);
 plot(D,Vout,'LineWidth',2)
 grid on
-xlabel('D')
+xlabel('d')
 ylabel('V_{out} [V]')
 %yticks([0,6,12,18,24])
+set(gca,'FontSize',16)
 saveFig(fig,'foreward_Vout_vs_D',200)
 
 %% Kurveform af spændingen over MOSFETen
@@ -25,6 +26,7 @@ ylabel('V_{MOSFET}')
 yticks([0 0.25 0.5 0.75 1])
 yticklabels({'0','','','', '2V_{in}'})
 grid()
+set(gca,'FontSize',12)
 saveFig(fig,'foreward_Vmos_scetch',200)
 
 %%
@@ -44,7 +46,7 @@ i3 = zeros(1,length(T));
 i1(1:(D*1000+1))=Iout+T(1:(D*1000+1))*deltaIm/(D*Tmax);
 i3(D*1000+2:length(T)) = deltaIm + (T(D*1000+2:length(T))-T(D*1000+2))*(-deltaIm/((1-D)*Tmax));
 iIn = i1-i3;
-figure(200)
+fig = figure(200)
 plot(T,i1,'LineWidth',8)
 hold on
 plot(T,i3,'LineWidth',6)
@@ -55,14 +57,16 @@ xticks([0 0.200 0.400 0.600 0.800 1]*10^(-5));
 xticklabels({'0','','dT','','','T'})
 xlabel('t');
 ylabel('V_{MOSFET}');
+set(gca,'FontSize',16)
 yticks([-deltaIm 0 deltaIm Iout (Iout+deltaIm)]);
 yticklabels({'-\Delta I_m','0','','\Delta I_m', 'I_{out}','I_{out}+\Delta I_m'});
-title({'Constructing the input current from', 'the current running through primary winding','and current running through the demagtinization winding'});
-legend('Current through primary winding','Current through demagtinization winding','Input current');
+%title({'Constructing the input current from', 'the current running through primary winding','and current running through the demagtinization winding'});
+legend('Current in primary winding','Current in demagtinization winding','Input current','Location','best');
 set(gca,'FontSize',12)
 ylabel('I')
 xlabel('t')
 hold off
+saveFig(fig,'foreward_contructing_I_out',200)
 %all this based off pase 147 of the book
 
 %% Now we do that four times:
@@ -136,7 +140,7 @@ subplot(4,1,4)
 plot(T4,iIn4)
 
 
-figure(203)
+fig=figure(203)
 plot(iIn1,'LineWidth',5)
 hold on
 plot(iIn2,'LineWidth',3)
@@ -149,11 +153,11 @@ xticks([0 200 400 600 800 1000]);
 xticklabels({'0','','dT','','','T'});
 yticks([0]);
 yticklabels({'0'});
-set(gca,'FontSize',20)
+set(gca,'FontSize',12)
 grid()
-set(gca,'FontSize',20)
 ylabel('I_{in}')
 xlabel('t')
+saveFig(fig,'foreward_various_Iout',200)
 %% TODO:
 % 1. make similar thing, but for inductor current
 % 2. make the save figure function actually work
@@ -166,3 +170,13 @@ T=linspace(0,Tmax,1001);
 T1 =T;
 deltaIm = Vin*(D*Tmax)/L;
 Iout = Vout/RL;
+
+function v = findingiL(R_L,f)
+    d =0.4;
+    T_max=1/f;
+    T=linspace(0,T_max,1001);
+    Vout = d*Vin;
+    Iout = Vout/RL;
+    syms tau
+    f = (1-d)*Vin;
+end

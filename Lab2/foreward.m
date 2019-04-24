@@ -63,6 +63,7 @@ set(gca,'FontSize',12)
 ylabel('I')
 xlabel('t')
 hold off
+%all this based off pase 147 of the book
 
 %% Now we do that four times:
 RL = 10;
@@ -153,5 +154,15 @@ grid()
 set(gca,'FontSize',20)
 ylabel('I_{in}')
 xlabel('t')
-%%
+%% TODO:
+% 1. make similar thing, but for inductor current
+% 2. make the save figure function actually work
 
+
+RL = 10;
+fsw=100*10^3;
+Tmax=1/fsw;
+T=linspace(0,Tmax,1001);
+T1 =T;
+deltaIm = Vin*(D*Tmax)/L;
+Iout = Vout/RL;

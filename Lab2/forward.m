@@ -1,4 +1,4 @@
-% foreward
+% forward
 
 % Graf Vout over d
 Vin = 20;
@@ -10,7 +10,7 @@ grid on
 xlabel('D')
 ylabel('V_{out} [V]')
 %yticks([0,6,12,18,24])
-saveFig(fig,'foreward_Vout_vs_D',200)
+saveFig(fig,'forward_Vout_vs_D',200)
 
 %% Kurveform af spændingen over MOSFETen
 
@@ -25,7 +25,7 @@ ylabel('V_{MOSFET}')
 yticks([0 0.25 0.5 0.75 1])
 yticklabels({'0','','','', '2V_{in}'})
 grid()
-saveFig(fig,'foreward_Vmos_scetch',200)
+saveFig(fig,'forward_Vmos_scetch',200)
 
 %%
 

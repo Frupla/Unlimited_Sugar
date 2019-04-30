@@ -59,7 +59,7 @@ d5 = readtable('data\952-Il.csv','HeaderLines',1);
 %t, pwm,Vmos,Iout,Iin (d1-4)
 %t, Iout, Ic
 figure(1)
-plot(d1.second,d1.Volt_1)
+plot(d1.second-d1.second(1),d1.Volt_1)
 
 figure(2)
 plot(d1.second,2*[d1.Volt_2,d1.Volt_3])

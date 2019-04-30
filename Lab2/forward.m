@@ -45,7 +45,7 @@ i3 = zeros(1,length(T));
 i1(1:(D*1000+1))=Iout+T(1:(D*1000+1))*deltaIm/(D*Tmax);
 i3(D*1000+2:length(T)) = deltaIm + (T(D*1000+2:length(T))-T(D*1000+2))*(-deltaIm/((1-D)*Tmax));
 iIn = i1-i3;
-fig = figure(200)
+fig = figure(200);
 plot(T,i1,'LineWidth',8)
 hold on
 plot(T,i3,'LineWidth',6)
@@ -58,15 +58,15 @@ xlabel('t');
 ylabel('V_{MOSFET}');
 set(gca,'FontSize',16)
 yticks([-deltaIm 0 deltaIm Iout (Iout+deltaIm)]);
-yticklabels({'-\Delta I_m','0','','\Delta I_m', 'I_{out}','I_{out}+\Delta I_m'});
+yticklabels({'-\Delta I_m','0','', 'I_{out}','I_{out}+\Delta I_m'});
 %title({'Constructing the input current from', 'the current running through primary winding','and current running through the demagtinization winding'});
-legend('Current in primary winding','Current in demagtinization winding','Input current','Location','best');
+legend('Current in primary winding','Current in demagnitization winding','Input current','Location','best');
 set(gca,'FontSize',12)
 ylabel('I')
 xlabel('t')
 hold off
-saveFig(fig,'foreward_contructing_I_out',200)
-%all this based off pase 147 of the book
+saveFig(fig,'forward_contructing_I_out',200)
+%all this based off page 147 of the book
 
 %% Now we do that four times:
 RL = 10;
@@ -124,22 +124,9 @@ i1(1:(D*1000+1))=Iout+T(1:(D*1000+1))*deltaIm/(D*Tmax);
 i3(D*1000+2:length(T)) = deltaIm + (T(D*1000+2:length(T))-T(D*1000+2))*(-deltaIm/((1-D)*Tmax));
 iIn4 = i1-i3;
 
-figure(202)
-
-subplot(4,1,1)
-plot(T1,iIn1)
-
-subplot(4,1,2)
-plot(T2,iIn2)
-
-subplot(4,1,3)
-plot(T3,iIn3)
-
-subplot(4,1,4)
-plot(T4,iIn4)
 
 
-fig=figure(203)
+fig=figure(203);
 plot(iIn1,'LineWidth',5)
 hold on
 plot(iIn2,'LineWidth',3)

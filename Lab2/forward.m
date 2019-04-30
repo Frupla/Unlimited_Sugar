@@ -171,6 +171,74 @@ grid()
 saveFig(fig,'forward_various_IL',200)
 hold off
 
+
+%% 9.5.1
+clear
+d1 = readtable('data/951-00.csv','HeaderLines',1);
+d2 = readtable('data/951-10.csv','HeaderLines',1);
+d3 = readtable('data/951-20.csv','HeaderLines',1);
+d4 = readtable('data/951-30.csv','HeaderLines',1);
+d5 = readtable('data/951-40.csv','HeaderLines',1);
+
+v = [mean(d1.Volt_1),mean(d2.Volt_1),mean(d3.Volt_1),mean(d4.Volt_1),mean(d5.Volt_1)];
+pwm = [0,0.1,0.2,0.3,0.4];
+
+Vin = 20;
+D = linspace(0,0.4,1001);
+Vout = D*Vin;
+fig = figure(100);
+plot(D,Vout,'LineWidth',2)
+hold on 
+scatter(pwm,v)
+hold off
+grid on
+xlabel('d')
+ylabel('V_{out} [V]')
+%yticks([0,6,12,18,24])
+legend('Calculated','Measured')
+set(gca,'FontSize',16)
+saveFig(fig,'forward_Vout_vs_D',200)
+
+%% 9.6.3
+clear
+d2 = readtable('data/952-75-100.csv','HeaderLines',1);
+d4 = readtable('data/952-75-040.csv','HeaderLines',1);
+d1 = readtable('data/952-10-100.csv','HeaderLines',1);
+d3 = readtable('data/952-10-040.csv','HeaderLines',1);
+d5 = readtable('data/952-Il.csv','HeaderLines',1);
+
+%t, pwm,Vmos,Iout,Iin (d1-4)
+%t, Iout, Ic
+
+
+
+fig = figure(2)
+plot(adjustTime(d1.second),2*[d1.Volt_2],'LineWidth',2)
+hold on
+plot(adjustTime(d2.second),2*[d2.Volt_2],'LineWidth',2)
+plot(adjustTime(d3.second),2*[d3.Volt_2],'LineWidth',2)
+plot(adjustTime(d4.second),2*[d4.Volt_2],'LineWidth',2)
+hold off
+legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega')
+title('output currents')
+set(gca,'FontSize',16)
+saveFig(fig,'forward_Vout_vs_D',200)
+
+
+fig = figure(3)
+plot(adjustTime(d1.second),2*[d1.Volt_3],'LineWidth',2)
+hold on
+plot(adjustTime(d2.second),2*[d2.Volt_3],'LineWidth',2)
+plot(adjustTime(d3.second),2*[d3.Volt_3],'LineWidth',2)
+plot(adjustTime(d4.second),2*[d4.Volt_3],'LineWidth',2)
+legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega')
+title('input currents')
+set(gca,'FontSize',16)
+saveFig(fig,'forward_Vout_vs_D',200)
+
+
+
+%% functions
 function [i,Iout] = findingiL(R_L,f)
     L = 100*10^(-6);
     Vin =20;
@@ -184,4 +252,8 @@ function [i,Iout] = findingiL(R_L,f)
     i((d*1000+2):length(T))=(T((d*1000+2):length(T))-d/f)*(-d*Vin/L)+(1-d)*Vin*d/(L*f);
     i_avg = sum(i)/length(i);
     i = i - i_avg + Iout;
+end
+
+function t_adj = adjustTime(time)
+ t_adj= 10^6 *(time-time(1));
 end

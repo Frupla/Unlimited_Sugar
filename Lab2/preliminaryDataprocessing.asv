@@ -1,0 +1,15 @@
+d1 = readtable('data\851-00.csv','HeaderLines',1);
+d2 = readtable('data\851-10.csv','HeaderLines',1);
+d3 = readtable('data\851-20.csv','HeaderLines',1);
+d4 = readtable('data\851-30.csv','HeaderLines',1);
+d5 = readtable('data\851-40.csv','HeaderLines',1);
+d6 = readtable('data\851-50.csv','HeaderLines',1);
+
+v = [mean(d1.Volt_1);
+,mean(d2.Volt_1);
+,mean(d3.Volt_1);
+,ean(d4.Volt_1);
+v40 = mean(d5.Volt_1);
+v50 = mean(d6.Volt_1);
+%%
+

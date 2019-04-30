@@ -66,4 +66,5 @@ plot(d1.second,2*[d1.Volt_2,d1.Volt_3])
 legend('out','in')
 
 figure(3)
-plot(d5.second,[2*d5.Volt,10*d5.Volt_1]);
+plot(adjustTime(d5.second),2*d5.Volt+10*d5.Volt_1);
+

@@ -58,13 +58,19 @@ d5 = readtable('data\952-Il.csv','HeaderLines',1);
 
 %t, pwm,Vmos,Iout,Iin (d1-4)
 %t, Iout, Ic
-figure(1)
-plot(d1.second-d1.second(1),d1.Volt_1)
+%figure(1)
+%plot(adjustTime(d1.second),d1.Volt_1)
 
-figure(2)
-plot(d1.second,2*[d1.Volt_2,d1.Volt_3])
-legend('out','in')
+%figure(2)
+%plot(adjustTime(d1.second),2*[d1.Volt_2,d1.Volt_3])
+%legend('out','in')
 
 figure(3)
-plot(adjustTime(d5.second),2*d5.Volt+10*d5.Volt_1);
+plot(adjustTime(d5.second)/25e-3,2*d5.Volt+10*d5.Volt_1);
+
+Il = 2*d5.Volt+10*d5.Volt_1;
+t = adjustTime(d5.second);
+V = (1-0.4)*20;
+
+deltaI = polyfit(Il,t,1);
 

@@ -161,16 +161,40 @@ saveFig(fig,'foreward_various_Iout',200)
 % 1. make similar thing, but for inductor current
 % 2. make the save figure function actually work
 
-iL1 = findingiL(10,100*10^3)
+[iL1,Iout1] = findingiL(10,100*10^3);
+[iL2,Iout2] = findingiL(7.5,100*10^3);
+[iL3,Iout3] = findingiL(10,40*10^3);
+[iL4,Iout4] = findingiL(7.5,40*10^3);
+fig = figure(210);
+plot(iL1,'LineWidth',2)
+hold on
+plot(iL2,'LineWidth',2)
+plot(iL3,'LineWidth',2)
+plot(iL4,'LineWidth',2)
+legend('I_{L} for f=100kHz, R_L = 10\Omega','I_{L} for f=100kHz, R_L = 7.5\Omega','I_{L} for f=40kHz,   R_L = 10\Omega','I_{L} for f=40kHz,   R_L = 7.5\Omega','Location','eastoutside')
+xlim([0 1000])
+xticks([0 200 400 600 800 1000]);
+xticklabels({'','','dT','','','T'});
+%yticks([Iout1,Iout2]);
+%yticklabels({'I_{out,10\Omega}','I_{out,7.5\Omega}'});
+set(gca,'FontSize',14)
+grid()
+%ylabel('I_{L}')
+%xlabel('t')
+saveFig(fig,'forward_various_IL',200)
+hold off
 
-function i = findingiL(R_L,f)
+function [i,Iout] = findingiL(R_L,f)
+    L = 100*10^(-6);
     Vin =20;
     d =0.4;
     T_max=1/f;
     T=linspace(0,T_max,1001);
     Vout = d*Vin;
-    Iout = Vout/RL;
+    Iout = Vout/R_L;
     i = zeros(1,length(T));
-    i(1:(D*1000+1))=Iout+T(1:(D*1000+1))*(1-d)*Vin/L;
-    i(2:length(T))=Iout+(T(2:length(T))-d/f)*(-d*Vin/L)+(1-d)*Vin*d/(L*f) + Iout;
+    i(1:(d*1000+1))=T(1:(d*1000+1))*(1-d)*Vin/L;
+    i((d*1000+2):length(T))=(T((d*1000+2):length(T))-d/f)*(-d*Vin/L)+(1-d)*Vin*d/(L*f);
+    i_avg = sum(i)/length(i);
+    i = i - i_avg + Iout;
 end

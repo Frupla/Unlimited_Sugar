@@ -50,7 +50,7 @@ Iout = Vout/RL;
 i1 =zeros(1,length(T));
 i3 = zeros(1,length(T));
 i1(1:(D*1000+1))=Iout+T(1:(D*1000+1))*deltaIm/(D*Tmax);
-i3(D*1000+2:length(T)) = deltaIm + (T(D*1000+2:length(T))-T(D*1000+2))*(-deltaIm/((1-D)*Tmax));
+i3(D*1000+2:D*1000+2+length(T)*D) = deltaIm + (T(D*1000+2:D*1000+2+length(T)*D)-T(D*1000+2))*(-deltaIm/((1-D)*Tmax));
 iIn = i1-i3;
 fig = figure(200);
 plot(T,i1,'LineWidth',8)
@@ -76,6 +76,10 @@ saveFig(fig,'forward_contructing_I_out',200)
 %all this based off page 147 of the book
 
 %% Now we do that four times:
+D=0.4;
+Vin=20;
+L=144*10^(-6);
+Vout=D*Vin;
 RL = 10;
 fsw=100*10^3;
 Tmax=1/fsw;
@@ -226,10 +230,12 @@ plot(adjustTime(d2.second),2*[d2.Volt_2],'LineWidth',2)
 plot(adjustTime(d3.second),2*[d3.Volt_2],'LineWidth',2)
 plot(adjustTime(d4.second),2*[d4.Volt_2],'LineWidth',2)
 hold off
-legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega')
-title('output currents')
+legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega','Location','eastoutside')
+title('Output currents, measured')
+ylabel('I [A]')
+xlabel('t [\mu s]')
 set(gca,'FontSize',16)
-saveFig(fig,'forward_Vout_vs_D',200)
+saveFig(fig,'forward_Iout_measured',200)
 
 
 fig = figure(3)
@@ -238,10 +244,13 @@ hold on
 plot(adjustTime(d2.second),2*[d2.Volt_3],'LineWidth',2)
 plot(adjustTime(d3.second),2*[d3.Volt_3],'LineWidth',2)
 plot(adjustTime(d4.second),2*[d4.Volt_3],'LineWidth',2)
-legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega')
-title('input currents')
+hold off
+legend('f=100kHz, R_L = 10\Omega','f=100kHz, R_L = 7.5\Omega','f=40kHz,   R_L = 10\Omega','f=40kHz,   R_L = 7.5\Omega','Location','eastoutside')
+title('Input currents, measured')
+ylabel('I [A]')
+xlabel('t [\mu s]')
 set(gca,'FontSize',16)
-saveFig(fig,'forward_Vout_vs_D',200)
+saveFig(fig,'forward_Iin_measured',200)
 
 
 

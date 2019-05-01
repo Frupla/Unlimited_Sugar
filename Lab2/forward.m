@@ -13,20 +13,27 @@ ylabel('V_{out} [V]')
 set(gca,'FontSize',16)
 saveFig(fig,'forward_Vout_vs_D',200)
 %% Kurveform af spændingen over MOSFETen
+d1 = readtable('data\952-75-100.csv','HeaderLines',1);
 
-Vmos = horzcat(zeros(1,400),ones(1,600));
+
+Vmos = horzcat(zeros(1,400),2*ones(1,400),ones(1,200));
 t = linspace(0,1,1000);
 fig = figure(100);
 plot(t,Vmos,'LineWidth',2);
+hold on 
+plot(1e5*(d1.second(1:993)-d1.second(1)),d1.Volt_1(35:1027)/20,'LineWidth',2)
+hold off
 xticks([0 0.200 0.400 0.600 0.800 1]);
-xticklabels({'0','','dT','','','T'})
+xticklabels({'0','','dT','','2dT','T'})
 xlabel('t')
 ylabel('V_{MOSFET}')
-yticks([0 0.25 0.5 0.75 1])
-yticklabels({'0','','','', '2V_{in}'})
+yticks([0 0.5 1 1.5 2 2.5 3])
+yticklabels({'0','','V_{in}','', '2V_{in}', '', '3V_{in}'})
+ylim([-0.5 3])
 grid()
+legend('Theoretical','Measured','location','northwest');
 set(gca,'FontSize',12)
-saveFig(fig,'forward_Vmos_scetch',200)
+saveFig(fig,'forward_Vmos',200)
 
 %%
 
@@ -247,22 +254,3 @@ saveFig(fig,'forward_Iin_measured',200)
 
 
 
-%% functions
-function [i,Iout] = findingiL(R_L,f)
-    L = 100*10^(-6);
-    Vin =20;
-    d =0.4;
-    T_max=1/f;
-    T=linspace(0,T_max,1001);
-    Vout = d*Vin;
-    Iout = Vout/R_L;
-    i = zeros(1,length(T));
-    i(1:(d*1000+1))=T(1:(d*1000+1))*(1-d)*Vin/L;
-    i((d*1000+2):length(T))=(T((d*1000+2):length(T))-d/f)*(-d*Vin/L)+(1-d)*Vin*d/(L*f);
-    i_avg = sum(i)/length(i);
-    i = i - i_avg + Iout;
-end
-
-function t_adj = adjustTime(time)
- t_adj= 10^6 *(time-time(1));
-end

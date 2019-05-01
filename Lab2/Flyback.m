@@ -152,7 +152,7 @@ yticklabels('')
 set(gca,'FontSize',20)
 saveFig(fig,'figs/Flyback_iout.eps',200) 
 %% fig iout real
-clear
+%clear
 d1 = readtable('data\852-75-100.csv','HeaderLines',1);
 d2 = readtable('data\852-75-040.csv','HeaderLines',1);
 d3 = readtable('data\852-10-100.csv','HeaderLines',1);
@@ -179,14 +179,19 @@ grid on
 xlim([0 25.99]);
 xlabel('T [\mus]')
 ylabel('Input current [A]')
+ylim([0 1])
 legend('R=7.5 \Omega,f_{sw}=100 kHz','R=7.5 \Omega,f_{sw}=40 kHz','R=10 \Omega,f_{sw}=100 kHz','R=10 \Omega,f_{sw}=40 kHz','Location','eastoutside');
 saveFig(fig,'figs/Flyback_iin_real.eps',200)
 %% lm1
 % 100 kHz 1.6 -> 3.18
 % 40 kHz 2.19 -> 10.11
 clear
+Vin=15;
 d1 = readtable('data\852-75-100.csv','HeaderLines',1);
 d2 = readtable('data\852-75-040.csv','HeaderLines',1);
 d3 = readtable('data\852-10-100.csv','HeaderLines',1);
 d4 = readtable('data\852-10-040.csv','HeaderLines',1);
-d1fit=d1.Volt_3(d1.second>=1.6e-6 & d1.second<=3.18e-6);
+[d1_L,fig]=findLlab2(d1.second,2*d1.Volt_3,Vin,[1.6e-6 3.18e-6]);
+[d2_L,fig2]=findLlab2(d2.second,2*d2.Volt_3,Vin,[2.19e-6 10.11e-6]);
+[d3_L,fig3]=findLlab2(d3.second,2*d3.Volt_3,Vin,[1.6e-6 3.18e-6]);
+[d4_L,fig4]=findLlab2(d4.second,2*d4.Volt_3,Vin,[2.19e-6 10.11e-6]);

@@ -182,7 +182,7 @@ ylabel('Input current [A]')
 ylim([0 1])
 legend('R=7.5 \Omega,f_{sw}=100 kHz','R=7.5 \Omega,f_{sw}=40 kHz','R=10 \Omega,f_{sw}=100 kHz','R=10 \Omega,f_{sw}=40 kHz','Location','eastoutside');
 saveFig(fig,'figs/Flyback_iin_real.eps',200)
-%% lm1
+%% Lm1
 % 100 kHz 1.6 -> 3.18
 % 40 kHz 2.19 -> 10.11
 clear
@@ -195,3 +195,13 @@ d4 = readtable('data\852-10-040.csv','HeaderLines',1);
 [d2_L,fig2]=findLlab2(d2.second,2*d2.Volt_3,Vin,[2.19e-6 10.11e-6]);
 [d3_L,fig3]=findLlab2(d3.second,2*d3.Volt_3,Vin,[1.6e-6 3.18e-6]);
 [d4_L,fig4]=findLlab2(d4.second,2*d4.Volt_3,Vin,[2.19e-6 10.11e-6]);
+%% p2p flux
+%eq 8.1, 8.2 and Re=(N_1_old)^2/Lm1
+%Re->reluctance
+N_1_old=2;
+N_1=42;
+delta_iin=[0.4815-0.2894 0.6944-0.1219 0.3994-0.1528 0.5858-0.05022]; %determined from graphs
+Re=N_1_old^2./[d1_L d2_L d3_L d4_L];
+delta_p2p_flux=N_1./Re.*delta_iin;
+delta_p2p_flux_theory=Vin/N_1*0.4.*[1/40e3 1/100e3];
+%% peak flux density

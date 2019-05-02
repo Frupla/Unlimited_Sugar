@@ -44,23 +44,27 @@ Vprim(T>=D)=-Vin*D/(1-D);
 Vsec=zeros(1,length(T));
 Vsec(T<=D)=-Nturns*Vin;
 Vsec(T>=D)=Nturns*Vin*D/(1-D);
-Vsec=[Vsec Vsec(2:end)];
-Vprim=[Vprim Vprim(2:end)];
-T=linspace(0,1,2001);
+%Vsec=[Vsec Vsec(2:end)];
+%Vprim=[Vprim Vprim(2:end)];
+%T=linspace(0,1,2001);
 %% fig
 fig=figure;
-plot((T*Treal(end)/2)*10^6,Vprim,'LineWidth',2.5)
+%plot((T*Treal(end)/2)*10^6,Vprim,'LineWidth',2.5)
+plot(T,Vprim,'LineWidth',2)
 hold on
 grid on
-plot((T*Treal(end)/2)*10^6,Vsec,'LineWidth',2.5)
-plot((Treal-4e-7)*10^6,-2*Vsec_real,'LineWidth',1.5)
-plot((Treal-4e-7)*10^6,Vsec_real,'LineWidth',1.5)
-xlabel('T [\mus]')
+plot(T,Vsec,'LineWidth',2)
+%plot((T*Treal(end)/2)*10^6,Vsec,'LineWidth',2.5)
+%plot((Treal-4e-7)*10^6,-2*Vsec_real,'LineWidth',1.5)
+%plot((Treal-4e-7)*10^6,Vsec_real,'LineWidth',1.5)
+%xlabel('T [\mus]')
+xlabel('T')
 ylabel('Voltage [V]')
-xlim([0 Treal(end)/2*10^6])
-legend('V_{prim} theoritical','V_{sec} theoritical','V_{prim} constructed','V_{sec} measured')
+%xlim([0 Treal(end)/2*10^6])
+%legend('V_{prim} theoritical','V_{sec} theoritical','V_{prim} constructed','V_{sec} measured')
+legend('Primary winding','Secondary winding');
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_transwave_real.eps',200)
+saveFig(fig,'figs/Flyback_transwave.eps',200)
 %% mosfet
 dV = readtable('data\852-10-100.csv','HeaderLines',1);
 Tcons=dV.second-dV.second(1);
@@ -72,22 +76,23 @@ T=linspace(0,1,1001);
 Vmos=zeros(1,length(T));
 Vmos(T<=D)=0;
 Vmos(T>=D)=Vin+Vin*D/(1-D);
-Vmos=[Vmos Vmos(2:end)];
-T=linspace(0,1,2001);
+%Vmos=[Vmos Vmos(2:end)];
+%T=linspace(0,1,2001);
 %% fig
 fig=figure;
-plot((T*Tmos(end))*10^6,Vmos,'LineWidth',4)
+%plot((T*Tmos(end))*10^6,Vmos,'LineWidth',4)
+plot(T,Vmos,'LineWidth',2)
 hold on
-plot(Tcons*10^6-0.4,Vmos_cons,'LineWidth',2)
-plot((Tmos-3e-7)*10^6,Vmos_real,'LineWidth',2)
+%plot(Tcons*10^6-0.4,Vmos_cons,'LineWidth',2)
+%plot((Tmos-3e-7)*10^6,Vmos_real,'LineWidth',2)
 grid on
-xlabel('T [\mus]')
+%xlabel('T [\mus]')
 ylabel('Voltage over mosfet [V]')
-xlim([0 (Tmos(end)-3e-7)*10^6])
-ylim([-4 38]);
-legend('Theoretical','Constructed','Measured','Location','best')
+%xlim([0 (Tmos(end)-3e-7)*10^6])
+%ylim([-4 38]);
+%legend('Theoretical','Constructed','Measured','Location','best')
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_mos_real.eps',200)
+saveFig(fig,'figs/Flyback_mos.eps',200)
 %% current
 % Iout = Idiode
 D=0.4;
@@ -198,10 +203,9 @@ d4 = readtable('data\852-10-040.csv','HeaderLines',1);
 %% p2p flux
 %eq 8.1, 8.2 and Re=(N_1_old)^2/Lm1
 %Re->reluctance
-N_1_old=2;
+N_1_old=42;
 N_1=42;
 delta_iin=[0.4815-0.2894 0.6944-0.1219 0.3994-0.1528 0.5858-0.05022]; %determined from graphs
-Re=N_1_old^2./[d1_L d2_L d3_L d4_L];
-delta_p2p_flux=N_1./Re.*delta_iin;
+delta_p2p_flux=delta_iin.*[d1_L d2_L d3_L d4_L]./N_1;
 delta_p2p_flux_theory=Vin/N_1*0.4.*[1/40e3 1/100e3];
 %% peak flux density

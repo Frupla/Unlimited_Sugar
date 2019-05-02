@@ -28,7 +28,7 @@ ylabel('V_{out} [V]')
 %ylim([0 Vin*2])
 xlim([0 0.5])
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_Vout_real.eps',200)
+%saveFig(fig,'figs/Flyback_Vout_real.eps',200)
 %% 8.5.2
 D=0.4;
 RL=10;
@@ -65,6 +65,7 @@ ylabel('Voltage [V]')
 legend('Primary winding','Secondary winding');
 set(gca,'FontSize',20)
 saveFig(fig,'figs/Flyback_transwave.eps',200)
+%saveFig(fig,'figs/Flyback_transwave_real.eps',200)
 %% mosfet
 dV = readtable('data\852-10-100.csv','HeaderLines',1);
 Tcons=dV.second-dV.second(1);
@@ -117,7 +118,7 @@ iout=zeros(1,length(T));
 iin(1:(D*1000+1))=Iin_0+T(1:(D*1000+1))*Iin_delta/(Tmax*D);
 iout((D*1000+1):end)=Iout_peak-(T((D*1000+1):end)-T(D*1000+1))*(Iout_peak-Iout_0)/(Tmax*(1-D));
 %% save data
-save('Flyback_currentwave_10_40.mat','T','iin','iout');
+save('Flyback_currentwave_75_100.mat','T','iin','iout');
 %% fig iin
 data_75_40=load('Flyback_currentwave_75_40.mat');
 data_10_40=load('Flyback_currentwave_10_40.mat');
@@ -136,7 +137,7 @@ ylabel('I_{in}')
 yticks([0.2 0.4 0.6 0.8]);
 yticklabels('')
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_iin.eps',200)
+%saveFig(fig,'figs/Flyback_iin.eps',200)
 %% fig iout
 data_75_40=load('Flyback_currentwave_75_40.mat');
 data_10_40=load('Flyback_currentwave_10_40.mat');
@@ -155,7 +156,7 @@ ylabel('I_{in}')
 yticks([0.4 0.8 1.2 1.6]);
 yticklabels('')
 set(gca,'FontSize',20)
-saveFig(fig,'figs/Flyback_iout.eps',200) 
+%saveFig(fig,'figs/Flyback_iout.eps',200) 
 %% fig iout real
 %clear
 d1 = readtable('data\852-75-100.csv','HeaderLines',1);
@@ -184,9 +185,9 @@ grid on
 xlim([0 25.99]);
 xlabel('T [\mus]')
 ylabel('Input current [A]')
-ylim([0 1])
+%ylim([0 1])
 legend('R=7.5 \Omega,f_{sw}=100 kHz','R=7.5 \Omega,f_{sw}=40 kHz','R=10 \Omega,f_{sw}=100 kHz','R=10 \Omega,f_{sw}=40 kHz','Location','eastoutside');
-saveFig(fig,'figs/Flyback_iin_real.eps',200)
+%saveFig(fig,'figs/Flyback_iin_real.eps',200)
 %% Lm1
 % 100 kHz 1.6 -> 3.18
 % 40 kHz 2.19 -> 10.11
@@ -208,4 +209,14 @@ N_1=42;
 delta_iin=[0.4815-0.2894 0.6944-0.1219 0.3994-0.1528 0.5858-0.05022]; %determined from graphs
 delta_p2p_flux=delta_iin.*[d1_L d2_L d3_L d4_L]./N_1;
 delta_p2p_flux_theory=Vin/N_1*0.4.*[1/40e3 1/100e3];
-%% peak flux density
+
+% Calculating the initial and peak flux value
+%I_in(0) determined from graphs
+initial_iin = [0.2734 0.1005 0.201 0.03147];
+peak_iin = [0.4815 0.6944 0.3994 0.5858];
+%using eq. 7.33
+phi_0 = [N_1*initial_iin(1)/Re(1) N_1*initial_iin(2)/Re(2) N_1*initial_iin(3)/Re(3) N_1*initial_iin(4)/Re(4)];
+phi_peak = [N_1*peak_iin(1)/Re(1) N_1*peak_iin(2)/Re(2) N_1*peak_iin(3)/Re(3) N_1*peak_iin(4)/Re(4)];
+phi_pp = phi_peak - phi_0;
+%Peak flux density
+B_peak = phi_peak/93.9e-6;

@@ -74,7 +74,9 @@ t = adjustTime(d5.second)*1e-6;
 %% @ 10ohm, 40Hz
 
 Il = 2*d5.Volt+10*d5.Volt_1;
-
+tempV = [(1-d)*Vin*ones(1,d*1000),d*Vin*ones(1,(1-d)*1000)];
+Vl = [tempV,tempV]';
+clear tempV;
 
 [L1] = findLlab2(d5.second,Il,(1-d)*Vin,[d5.second(1) d5.second(400)]);
 [L2] = findLlab2(d5.second,Il,d*Vin,[d5.second(400) d5.second(1000)]);
@@ -85,7 +87,7 @@ L1040 = (abs(L1)+abs(L2)+abs(L3)+abs(L4))/4;
 
 
 
-%% @ 7.5ohm, 40Hz We can't even do this I realize
+%% @ 7.5ohm, 40Hz
 
 Il = 2*d4.Volt_2+10*d5.Volt_1;
 tempV = [(1-d)*Vin*ones(1,d*1000),d*Vin*ones(1,(1-d)*1000)];
@@ -101,25 +103,25 @@ L7540 = (abs(L1)+abs(L2)+abs(L3)+abs(L4))/4;
 
 %% Gettin Ic@100kHz through shady methods:
 C = 100*10^-6;
-f = 40*10^3;
+f = 40*10^3
 
 Ic40 = medfilt1(d5.Volt_1*10,13);
 figure(1)
 plot(t,Ic40)
 Icpeak = max(Ic40)-min(Ic40);
 
+Vc = [d/f*Icpeak/2*C*ones(400,1);-(1-d)/f*Icpeak/2*C*ones(600,1);d/f*Icpeak/2*C*ones(400,1);-(1-d)f*Icpeak/2*C*ones(600,1)];
+
+plot(t,[Vc,Ic40])
 
 
+Ic100 = 
 %%
-im1 = -0.274; %100,10
-im2 = -0.264; %100,7.5
-im3 = -0.851; %40, 10
-im4 = -0.861; %40, 7.5
 
-%im1 = min(2*d1.Volt_3);
-%im2 = min(2*d2.Volt_3);
-%im3 = min(2*d3.Volt_3);
-%im4 = min(2*d4.Volt_3);
+im1 = min(2*d1.Volt_3);
+im2 = min(2*d2.Volt_3);
+im3 = min(2*d3.Volt_3);
+im4 = min(2*d4.Volt_3);
 
 L1m = 0.2*10^-3;
 N1 = 16;
